@@ -48,7 +48,7 @@ test-race:
 # Run tests with coverage
 test-coverage:
 	@echo "Running tests with coverage..."
-	$(GOTEST) -cover ./...
+	$(GOTEST) -coverprofile=coverage.out -covermode=atomic ./...
 
 # Run golangci-lint
 lint:
@@ -64,6 +64,7 @@ clean:
 	rm -f *.db
 	rm -f *.db-shm
 	rm -f *.db-wal
+	rm -f coverage.out
 
 # Download dependencies
 deps:

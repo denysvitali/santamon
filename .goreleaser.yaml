@@ -11,6 +11,11 @@ builds:
       - linux
       - windows
       - darwin
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+      - -X main.commit={{.FullCommit}}
+      - -X main.date={{.Date}}
 
 archives:
   - formats: [tar.gz]
@@ -26,6 +31,10 @@ archives:
     format_overrides:
       - goos: windows
         formats: [zip]
+
+checksum:
+  name_template: 'checksums.txt'
+  algorithm: sha256
 
 changelog:
   sort: asc
