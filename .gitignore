@@ -1,5 +1,5 @@
 # Binaries
-santamon
+/santamon
 *.exe
 *.exe~
 *.dll
