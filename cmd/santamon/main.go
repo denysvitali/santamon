@@ -26,8 +26,10 @@ import (
 	"golang.org/x/sync/errgroup"
 )
 
-const (
-	version           = "v0.1.0"
+var (
+	version           = "dev"
+	commit            = "none"
+	date              = "unknown"
 	defaultConfigPath = "/etc/santamon/config.yaml"
 )
 
@@ -50,6 +52,8 @@ func main() {
 		rulesCommand()
 	case "version":
 		fmt.Printf("santamon version %s\n", version)
+		fmt.Printf("commit: %s\n", commit)
+		fmt.Printf("built: %s\n", date)
 	case "help", "-h", "--help":
 		printUsage()
 	default:
@@ -209,7 +213,8 @@ func runCommand() {
 	fmt.Println("|___ / ___ | | | || |_/ ___ | | | | |_| | | | |")
 	fmt.Println("(___/\\_____|_| |_| \\__)_____|_|_|_|\\___/|_| |_|")
 	fmt.Println("                                               ")
-	fmt.Printf("  %s - Lightweight macOS Detection Agent\n\n", version)
+	fmt.Printf("  %s - Lightweight macOS Detection Agent\n", version)
+	fmt.Printf("  commit: %s, built: %s\n\n", commit, date)
 	fmt.Printf("\033[92m✓\033[0m Loaded configuration from %s\n", *configPath)
 	fmt.Printf("\033[92m✓\033[0m Agent ID: %s\n", cfg.Agent.ID)
 
