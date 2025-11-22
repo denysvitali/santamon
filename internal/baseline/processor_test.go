@@ -14,7 +14,7 @@ import (
 
 func TestNewProcessor(t *testing.T) {
 	db := setupTestDB(t)
-	defer db.Close()
+	defer func() { _ = db.Close() }()
 
 	proc := NewProcessor(db)
 	if proc == nil {
@@ -27,7 +27,7 @@ func TestNewProcessor(t *testing.T) {
 
 func TestProcessNoBaselines(t *testing.T) {
 	db := setupTestDB(t)
-	defer db.Close()
+	defer func() { _ = db.Close() }()
 
 	proc := NewProcessor(db)
 	engine, _ := rules.NewEngine()
@@ -47,7 +47,7 @@ func TestProcessNoBaselines(t *testing.T) {
 
 func TestProcessFirstOccurrence(t *testing.T) {
 	db := setupTestDB(t)
-	defer db.Close()
+	defer func() { _ = db.Close() }()
 
 	proc := NewProcessor(db)
 	engine, _ := rules.NewEngine()
@@ -102,7 +102,7 @@ func TestProcessFirstOccurrence(t *testing.T) {
 
 func TestProcessSecondOccurrence(t *testing.T) {
 	db := setupTestDB(t)
-	defer db.Close()
+	defer func() { _ = db.Close() }()
 
 	proc := NewProcessor(db)
 	engine, _ := rules.NewEngine()
@@ -147,7 +147,7 @@ func TestProcessSecondOccurrence(t *testing.T) {
 
 func TestProcessLearningPeriod(t *testing.T) {
 	db := setupTestDB(t)
-	defer db.Close()
+	defer func() { _ = db.Close() }()
 
 	proc := NewProcessor(db)
 	engine, _ := rules.NewEngine()
@@ -188,7 +188,7 @@ func TestProcessLearningPeriod(t *testing.T) {
 
 func TestProcessMultipleTrackFields(t *testing.T) {
 	db := setupTestDB(t)
-	defer db.Close()
+	defer func() { _ = db.Close() }()
 
 	proc := NewProcessor(db)
 	engine, _ := rules.NewEngine()
@@ -236,7 +236,7 @@ func TestProcessMultipleTrackFields(t *testing.T) {
 
 func TestProcessFilterNotMatching(t *testing.T) {
 	db := setupTestDB(t)
-	defer db.Close()
+	defer func() { _ = db.Close() }()
 
 	proc := NewProcessor(db)
 	engine, _ := rules.NewEngine()
@@ -273,7 +273,7 @@ func TestProcessFilterNotMatching(t *testing.T) {
 
 func TestExtractPattern(t *testing.T) {
 	db := setupTestDB(t)
-	defer db.Close()
+	defer func() { _ = db.Close() }()
 
 	proc := NewProcessor(db)
 
@@ -339,7 +339,7 @@ func TestExtractPattern(t *testing.T) {
 
 func TestProcessMultipleBaselines(t *testing.T) {
 	db := setupTestDB(t)
-	defer db.Close()
+	defer func() { _ = db.Close() }()
 
 	proc := NewProcessor(db)
 	engine, _ := rules.NewEngine()
@@ -415,9 +415,10 @@ func createTestMessage(t *testing.T, decisionStr string) *santapb.SantaMessage {
 	now := timestamppb.Now()
 
 	decision := santapb.Execution_DECISION_UNKNOWN
-	if decisionStr == "DECISION_DENY" {
+	switch decisionStr {
+	case "DECISION_DENY":
 		decision = santapb.Execution_DECISION_DENY
-	} else if decisionStr == "DECISION_ALLOW" {
+	case "DECISION_ALLOW":
 		decision = santapb.Execution_DECISION_ALLOW
 	}
 
